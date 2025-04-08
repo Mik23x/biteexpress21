@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <style>
+        /* General Body Styles */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(45deg, #1c1c1c, #4b4b4b);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            color: #fff;
+        }
+
+        /* Container for login form */
+        .login-container {
+            background: #fff;
+            padding: 40px;
+            border-radius: 8px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+            width: 400px;
+            text-align: center;
+        }
+
+        /* Header Style */
+        h2 {
+            margin-bottom: 30px;
+            color: #333;
+            font-size: 24px;
+        }
+
+        /* Label Styles */
+        label {
+            font-size: 14px;
+            text-align: left;
+            display: block;
+            color: #333;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+
+        /* Input Fields */
+        input {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 16px;
+            color: #333;
+        }
+
+        /* Button Styles */
+        button {
+            background-color: #4CAF50;
+            color: #fff;
+            padding: 14px;
+            border: none;
+            border-radius: 4px;
+            width: 100%;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        /* Error message styles */
+        #errorMessage {
+            color: #ff3333;
+            margin-top: 10px;
+            font-size: 14px;
+            display: none;
+        }
+
+        /* Timer message styles */
+        #timerMessage {
+            margin-top: 20px;
+            font-size: 14px;
+            display: none;
+        }
+
+        #timer {
+            font-weight: bold;
+            color: #ff3333;
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="login-container">
+        <h2>Login</h2>
+        <form id="loginForm" onsubmit="return validateLogin()">
+            <div>
+                <label for="username">Username:</label>
+                <input type="text" id="username" name="username" value="Mikhael" required>
+            </div>
+            <div>
+                <label for="password">Password:</label>
+                <input type="password" id="password" name="password" value="DAGDAG" required>
+            </div>
+            <button type="submit">Log In</button>
+        </form>
+
+        <div id="errorMessage">
+            <p>Incorrect username or password. Please try again.</p>
+        </div>
+
+        <div id="timerMessage">
+            <p>You can try again in <span id="timer">10</span> seconds.</p>
+        </div>
+    </div>
+
+    <script>
+        // Function to handle login and validation
+        document.getElementById("loginForm").addEventListener("submit", function(event){
+            event.preventDefault(); // Prevent form submission
+            
+            let username = document.getElementById("username").value;
+            let password = document.getElementById("password").value;
+            let button = document.querySelector("button");
+
+            // Check for valid credentials
+            if(username === "Mikhael" && password === "DAGDAG"){
+                sessionStorage.setItem("loggedIn", "true");
+                alert("Login successful! Redirecting...");
+                window.location.href = "file:///C:/Users/USER/Desktop/New%20folder%20(2)/BiteExpress%20(3).html"; // Update this URL for production if needed
+            } else {
+                document.getElementById("errorMessage").style.display = "block";
+                button.disabled = true; // Disable button after failed attempt
+                document.getElementById("timerMessage").style.display = "block"; // Show timer message
+                let timer = 10; // 10 seconds timer
+                document.getElementById("timer").textContent = timer;
+
+                // Countdown timer for retry
+                let interval = setInterval(() => {
+                    timer--;
+                    document.getElementById("timer").textContent = timer;
+                    if (timer <= 0) {
+                        clearInterval(interval);
+                        button.disabled = false; // Re-enable the button after 10 seconds
+                        document.getElementById("timerMessage").style.display = "none"; // Hide timer message
+                    }
+                }, 1000);
+            }
+        });
+    </script>
+
+</body>
+</html>
